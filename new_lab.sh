@@ -32,3 +32,8 @@ az policy assignment create -n $PolicyAssignmentName --display-name "Lab Policy 
     --scope $resourceGroupScope \
     --policy $defintion_id \
     --params $tmp_dir/values.json
+
+template_path="./infrastructure/arm-template.json"
+if [ -e $template_path ]; then
+    az group deployment create -g $Lab -n "lab-resources" --template-file $template_path
+fi
