@@ -15,5 +15,8 @@ get_lab_policy_components './infrastructure/policy.json'
 
 new_lab_user $User $Pass
 
-$resourceGroupScope=$(az group --name $Lab -o tsv --query 'ResourceId')
-add_custom_role_field $resourceGroupScope
+resourceGroupScope=$(az group show --name $Lab -o tsv --query id)
+write_custom_role_file $resourceGroupScope
+
+az role definition create --role-definition $tmp_dir/role.json
+az role assignment create --assignee $User -g $Lab --role "$RoleDefinitionName"

@@ -26,7 +26,7 @@ function get_lab_policy_components {
     jq ".parameters_values" < $file > $tmp_dir/values.json
 }
 
-function add_custom_role_field {
+function write_custom_role_file {
     if [[ $# -ne 1 ]]; then
         echo "$0 requires the following arguments (expected 1, got $#):" >&2
         echo "scope" >&2
@@ -34,7 +34,7 @@ function add_custom_role_field {
     fi
     scope=$1
 
-    jq ". + {'Name':$RoleDefinitionName,'Description':'Lab Role','AssignableScopes':$scope}" \
+    jq --arg n "$RoleDefinitionName" --arg d "Lab Role" --arg s "$scope" '.[0] + {name:$n,description:$d,assignableScopes:[$s]}' \
     < $tmp_dir/permissions.json \
     > $tmp_dir/role.json
 }
