@@ -20,3 +20,15 @@ write_custom_role_file $resourceGroupScope
 
 az role definition create --role-definition $tmp_dir/role.json
 az role assignment create --assignee $User -g $Lab --role "$RoleDefinitionName"
+
+defintion_id=$(az policy definition create -n $PolicyDefinitionName --display-name "Lab Policy" \
+    --description "Lab policy" \
+    --metadata "Category=Lab" \
+    --rules $tmp_dir/policy.json \
+    --params $tmp_dir/parameters.json \
+    --mode "All" \
+    -o tsv --query "id")
+az policy assignment create -n $PolicyAssignmentName --display-name "Lab Policy Assignment" \
+    --scope $resourceGroupScope \
+    --policy $defintion_id \
+    --params $tmp_dir/values.json
