@@ -11,9 +11,9 @@ mkdir -p $tmp_dir
 
 az group create --name $Lab --location $Region
 
-get_lab_policy_components './infrastructure/policy.json'
-
 new_lab_user $User $Pass
+
+get_lab_policy_components './infrastructure/policy.json'
 
 resourceGroupScope=$(az group show --name $Lab -o tsv --query id)
 write_custom_role_file $resourceGroupScope
