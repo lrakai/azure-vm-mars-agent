@@ -133,6 +133,8 @@
                 "Microsoft.RecoveryServices/vaults/backupFabrics",
                 "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers",
                 "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
+                "Microsoft.RecoveryServices/vaults/extendedInformation",
+                "Microsoft.RecoveryServices/vaults/certificates",
                 "Microsoft.Storage/storageAccounts"
             ]
         },
