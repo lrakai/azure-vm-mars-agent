@@ -10,7 +10,8 @@ function new_lab_user {
     password=$2
     az ad user create --display-name $user \
         --password $password \
-        --user-principal-name $user
+        --user-principal-name $user \
+        --force-change-password-next-login
 }
 
 function get_lab_policy_components {
