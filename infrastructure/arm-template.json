@@ -237,6 +237,33 @@
             }
         },
         {
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('virtualMachineName'),'/provision')]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[parameters('virtualMachineName')]"
+            ],
+            "tags": {
+                "displayName": "provision"
+            },
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.9",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "https://raw.githubusercontent.com/cloudacademy/azure-lab-provisioners/master/mars-backup-agent/bootstrap.ps1"
+                    ],
+                    "timestamp":123456789
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File bootstrap.ps1 -user ',parameters('adminUsername'),' -password ',parameters('adminPassword'))]"
+                }
+            }
+        },
+        {
             "name": "[variables('diagnosticsStorageAccountName')]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",

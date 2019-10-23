@@ -49,6 +49,13 @@
                 "displayName": "Allowed Recovery Services Vault SKUs"
             }
         },
+        "allowedVmExtensionTypes": {
+            "type": "array",
+            "metadata": {
+                "description": "The list of allowed VM Extension types",
+                "displayName": "Allowed VM Extension types"
+            }
+        },
         "disallowedActions": {
             "type": "array",
             "metadata": {
@@ -103,6 +110,20 @@
                     ]
                 },
                 {
+                    "allOf": [
+                        {
+                            "field": "type",
+                            "equals": "Microsoft.Compute/virtualMachines/extensions"
+                        },
+                        {
+                            "not": {
+                                "field": "Microsoft.Compute/virtualMachines/extensions/type",
+                                "in": "[parameters('allowedVmExtensionTypes')]"
+                            }
+                        }
+                    ]
+                },
+                {
                     "source": "action",
                     "in": "[parameters('disallowedActions')]"
                 }
@@ -127,6 +148,7 @@
                 "Microsoft.Network/networkInterfaces",
                 "Microsoft.Network/publicIPAddresses",
                 "Microsoft.Compute/virtualMachines",
+                "Microsoft.Compute/virtualMachines/extensions",
                 "Microsoft.Compute/disks",
                 "Microsoft.RecoveryServices/vaults",
                 "Microsoft.RecoveryServices/vaults/backupPolicies",
@@ -146,6 +168,11 @@
         "allowedRecoveryVaultSkus": {
             "value": [
                 "RS0"
+            ]
+        },
+        "allowedVmExtensionTypes": {
+            "value": [
+                "CustomScriptExtension"
             ]
         },
         "disallowedActions": {
